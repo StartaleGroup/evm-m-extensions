@@ -91,7 +91,6 @@ contract DeployBase is DeployHelpers, ScriptBase {
 
         console.log("Using deployer:", deployer);
         console.log("Using chainId:", block.chainid);
-        console.log("Using DeployConfig:", _getExtensionName());
         DeployExtensionConfig memory extensionConfig = _getExtensionConfig(block.chainid, _getExtensionName());
 
         console.log("Extension name:", extensionConfig.name);
