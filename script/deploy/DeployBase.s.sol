@@ -11,10 +11,12 @@ import { ScriptBase } from "../ScriptBase.s.sol";
 
 import { MEarnerManager } from "../../src/projects/earnerManager/MEarnerManager.sol";
 import { MYieldToOne } from "../../src/projects/yieldToOne/MYieldToOne.sol";
+import { UsdscToken } from "../../src/UsdscToken.sol";
 import { MYieldFee } from "../../src/projects/yieldToAllWithFee/MYieldFee.sol";
 
 import { SwapFacility } from "../../src/swap/SwapFacility.sol";
 import { UniswapV3SwapAdapter } from "../../src/swap/UniswapV3SwapAdapter.sol";
+import { console } from "forge-std/console.sol";
 
 contract DeployBase is DeployHelpers, ScriptBase {
     Options public deployOptions;
@@ -87,7 +89,14 @@ contract DeployBase is DeployHelpers, ScriptBase {
     ) internal returns (address implementation, address proxy, address proxyAdmin) {
         DeployConfig memory config = _getDeployConfig(block.chainid);
 
+        console.log("Using deployer:", deployer);
+        console.log("Using chainId:", block.chainid);
         DeployExtensionConfig memory extensionConfig = _getExtensionConfig(block.chainid, _getExtensionName());
+
+        console.log("Extension name:", extensionConfig.name);
+        console.log("Extension symbol:", extensionConfig.symbol);
+        console.log("Extension admin:", extensionConfig.admin);
+        console.log("Extension yield recipient:", extensionConfig.yieldRecipient);
 
         implementation = address(new MYieldToOne(config.mToken, _getSwapFacility()));
 
@@ -104,6 +113,41 @@ contract DeployBase is DeployHelpers, ScriptBase {
                 extensionConfig.yieldRecipientManager
             ),
             _computeSalt(deployer, "MYieldToOne")
+        );
+
+        proxyAdmin = extensionConfig.admin;
+    }
+
+    function _deployUsdsc(
+        address deployer
+    ) internal returns (address implementation, address proxy, address proxyAdmin) {
+        DeployConfig memory config = _getDeployConfig(block.chainid);
+
+        console.log("Using deployer:", deployer);
+        console.log("Using chainId:", block.chainid);
+        console.log("Using DeployConfig:", _getExtensionName());
+        DeployExtensionConfig memory extensionConfig = _getExtensionConfig(block.chainid, _getExtensionName());
+
+        console.log("Extension name:", extensionConfig.name);
+        console.log("Extension symbol:", extensionConfig.symbol);
+        console.log("Extension admin:", extensionConfig.admin);
+        console.log("Extension yield recipient:", extensionConfig.yieldRecipient);
+        // address swapFacilityMinato = 0x34F141dACB2DeF72D2196a473C585830af8B4004; // placeholder
+
+        implementation = address(new UsdscToken(config.mToken, _getSwapFacility()));
+        proxy = _deployCreate3TransparentProxy(
+            implementation,
+            extensionConfig.admin,
+            abi.encodeWithSelector(
+                UsdscToken.initialize.selector,
+                extensionConfig.name,
+                extensionConfig.symbol,
+                extensionConfig.yieldRecipient,
+                extensionConfig.admin,
+                extensionConfig.freezeManager,
+                extensionConfig.yieldRecipientManager
+            ),
+            _computeSalt(deployer, "Startale USD Minato")
         );
 
         proxyAdmin = extensionConfig.admin;
