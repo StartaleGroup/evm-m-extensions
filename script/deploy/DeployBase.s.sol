@@ -147,7 +147,7 @@ contract DeployBase is DeployHelpers, ScriptBase {
                 extensionConfig.freezeManager,
                 extensionConfig.yieldRecipientManager
             ),
-            _computeSalt(deployer, "Startale USD Testnet")
+            _computeSalt(deployer, "Startale USD Minato")
         );
 
         proxyAdmin = extensionConfig.admin;

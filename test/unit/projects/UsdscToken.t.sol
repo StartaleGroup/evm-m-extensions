@@ -24,7 +24,7 @@ import { BaseUnitTest } from "../../utils/BaseUnitTest.sol";
 contract MYieldToOneUnitTests is BaseUnitTest {
     UsdscTokenHarness public mYieldToOne;
 
-    string public constant NAME = "Startale USD Testnet";
+    string public constant NAME = "Startale USD Minato";
     string public constant SYMBOL = "USDSC";
 
     function setUp() public override {

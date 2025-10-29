@@ -167,7 +167,7 @@ contract Config {
                 config.yieldRecipientManager = 0x12b1A4226ba7D9Ad492779c924b0fC00BDCb6217;
             }
 
-            if (keccak256(bytes(name)) == keccak256(bytes("Startale USD Testnet"))) {
+            if (keccak256(bytes(name)) == keccak256(bytes("Startale USD Minato"))) {
                 config.name = name;
                 config.symbol = "USDSC";
                 // TODO: review as admin for proxy admin..?
