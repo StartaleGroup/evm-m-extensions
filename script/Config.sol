@@ -42,6 +42,7 @@ contract Config {
     uint256 public constant ARBITRUM_SEPOLIA_CHAIN_ID = 421614;
     uint256 public constant OPTIMISM_SEPOLIA_CHAIN_ID = 11155420;
     uint256 public constant SONEIUM_MINATO_CHAIN_ID = 1946;
+    uint256 public constant SONEIUM_CHAIN_ID = 1868;
 
     address public constant M_TOKEN = 0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b;
     address public constant WRAPPED_M_TOKEN = 0x437cc33344a0B27A429f795ff6B469C72698B291;
